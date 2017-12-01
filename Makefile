@@ -109,6 +109,28 @@ update:
 	git pull --recurse-submodules && git submodule foreach git pull origin master
 
 
+# target: upgrade                 - Upgrade external LESS modules.
+.PHONY: upgrade
+upgrade: upgrade-normalize upgrade-responsive-menu
+    @$(call HELPTEXT,$@)
+
+
+# target: upgrade-normalize       - Upgrade LESS module - Normalize.
+.PHONY: upgrade-normalize
+upgrade-normalize:
+	@$(call HELPTEXT,$@)
+	sudo npm update normalize.css
+	cp node_modules/normalize.css/normalize.css modules/normalize.less
+
+
+# target: upgrade-responsive-menu - Upgrade LESS module - Responsive menu
+.PHONY: upgrade-responsive-menu
+upgrade-responsive-menu:
+    @$(call HELPTEXT,$@)
+    sudo npm update desinax-responsive-menu
+    cp node_modules/desinax-responsive-menu/src/less/responsive-menu.less modules/
+    cp node_modules/desinax-responsive-menu/src/js/responsive-menu.js js/
+
 
 # target: test               - Execute all tests.
 .PHONY: test
@@ -154,11 +176,11 @@ less-lint: less
 .PHONY: npm-installl npm-update npm-version
 npm-install: 
 	@$(call HELPTEXT,$@)
-	npm install
+	sudo npm install
 
 npm-update: 
 	@$(call HELPTEXT,$@)
-	npm update
+	sudo npm update
 
 npm-version:
 	@$(call HELPTEXT,$@)
